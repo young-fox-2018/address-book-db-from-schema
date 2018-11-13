@@ -77,10 +77,6 @@ class Model {
 
     }
 
-    static delete() {
-
-    }
-
     static execQuery(query, cb) {
         db.run(query, function(err){
             if (err) {

@@ -6,76 +6,93 @@ const View = require('../views/View')
 
 class Controller {
 
-    static create(table, params) {
-        if (table === 'contacts') {
-            if (params.length !== 4) {
-                View.displayErr(
-                `
-    format yang benar untuk create contact :
-    create contacts <name> <perusahaan> <nomor hp> <email>
-                `
-                    )
-            } else {
-                Model.findOne(table, {
-                    field: 'email',
-                    value: params[3]
-                }, function(err, data){
-                    if (err) {
-                        View.displayErr(err)
-                    } else {
-                        // console.log(data)
-                        if (data) {
-                            View.displayErr({
-                                message: `email ${data.email} telah digunakan`
-                            })
-                        } else {
-                            Model.create(table, params, function(err){
-                                if (err) {
-                                    View.displayErr(err)
-                                } else {
-                                    View.displayMsg(`contact ${params[0]} berhasil dibuat`)
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-        } else if (table === 'groups') {
-            // console.log(table)
-            // console.log(params)
-            if (params.length !== 1) {
-                View.displayErr(
-                    `
-        format yang benar untuk create groups :
-        create groups <nama group>
-                    `
-                        )
-            } else {
-                Model.findOne(table, {
-                    field: 'nama',
-                    value: params[0]
-                }, function(err, data){
-                    if (err){
-                        View.displayErr(err)
-                    } else {
-                        if (data) {
-                            View.displayErr(`nama group ${params[0]} sudah digunakan`)
-                        } else {
-                            Model.create(table, params, function(err){
-                                if (err) {
-                                    View.displayErr(err)
-                                } else {
-                                    View.displayMsg(`nama group ${params[0]} berhasil dibuat`)
-                                }
-                            })
-                        }
-                    }
-                })
-            }
+    static checkingEmail (email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
 
+    static create(table, params) {
+
+        if (params[2].length >= 10 && params[2].length <= 13) {
+            if (Controller.checkingEmail(params[3])) {
+
+
+                    if (table === 'contacts') {
+                        if (params.length !== 4) {
+                            View.displayErr(
+                            `
+                format yang benar untuk create contact :
+                create contacts <name> <perusahaan> <nomor hp> <email>
+                            `
+                                )
+                        } else {
+                            Model.findOne(table, {
+                                field: 'email',
+                                value: params[3]
+                            }, function(err, data){
+                                if (err) {
+                                    View.displayErr(err)
+                                } else {
+                                    // console.log(data)
+                                    if (data) {
+                                        View.displayErr({
+                                            message: `email ${data.email} telah digunakan`
+                                        })
+                                    } else {
+                                        Model.create(table, params, function(err){
+                                            if (err) {
+                                                View.displayErr(err)
+                                            } else {
+                                                View.displayMsg(`contact ${params[0]} berhasil dibuat`)
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    } else if (table === 'groups') {
+                        // console.log(table)
+                        // console.log(params)
+                        if (params.length !== 1) {
+                            View.displayErr(
+                                `
+                    format yang benar untuk create groups :
+                    create groups <nama group>
+                                `
+                                    )
+                        } else {
+                            Model.findOne(table, {
+                                field: 'nama',
+                                value: params[0]
+                            }, function(err, data){
+                                if (err){
+                                    View.displayErr(err)
+                                } else {
+                                    if (data) {
+                                        View.displayErr(`nama group ${params[0]} sudah digunakan`)
+                                    } else {
+                                        Model.create(table, params, function(err){
+                                            if (err) {
+                                                View.displayErr(err)
+                                            } else {
+                                                View.displayMsg(`nama group ${params[0]} berhasil dibuat`)
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+
+                    } else {
+                        View.displayErr('table tidak ditemukan')
+                    }
+            } else {
+                View.displayErr('input email salah')
+            }
         } else {
-            View.displayErr('table tidak ditemukan')
+            View.displayErr('input nomor hp salah')
         }
+    
 
 
         
@@ -181,36 +198,82 @@ class Controller {
     static show (table, params) {
         // console.log(table)
         // console.log(params)
-        if (params.field != undefined && params.value != undefined) {
-            if (table === 'contacts') {
-                // console.log('table contact')
-                Contacts.findContact(table, params, function(err, data){
-                    if (err) {
-                        View.displayErr(err)
-                    } else {
-                        View.displayMsg(data)
-                    }
+        
+ 
+        if (table === 'contacts') {
+            // console.log('table contact')
+            Contacts.findContact(table, params, function(err, data){
+                if (err) {
+                    View.displayErr(err)
+                } else {
+                    // console.log(data)
+                    View.displayMsg(data)
+                }
+            })
+        } else if (table === 'groups') {
+            Group.findGroup(table, params, function(err, data) {
+                if (err) {
+                    View.displayErr(err)
+                } else {
+                    View.displayMsg(data)
+                }
                 })
-            } else if (table === 'groups') {
-                Group.findGroup(table, params, function(err, data) {
-                    if (err) {
-                        View.displayErr(err)
-                    } else {
-                        View.displayMsg(data)
-                    }
-                 })
-            }
         } else {
-            View.displayErr('input show salah')
+            View.displayErr('table not found')
         }
-
         
     }
 
     static delete (table, params) {
         // console.log(table, params)
         if (params.field != undefined && params.value != undefined) {
-            console.log('bisa')
+            if (table === 'contacts') {
+                Model.findOne(table, params, function(err, data) {
+                    if (err) {
+                        View.displayErr(err)
+                    } else {
+                        if (data) {
+                            Contacts.deleteContact({
+                                field: 'id',
+                                value: data.id
+                            }, function(err) {
+                                if (err) {
+                                    View.displayErr (err)
+                                } else {
+                                    View.displayMsg(`berhasil menghapus contact ${params.value}`)
+                                }
+                            })
+                        } else {
+                            View.displayErr(`${params.value} tidak ada pada table ${table}`)
+                        }
+                        
+                    }
+                })
+            } else if (table === 'groups'){
+                Model.findOne(table, params, function(err, data) {
+                    if (err) {
+                        View.displayErr(err)
+                    } else {
+                        if (data) {
+                            Group.deleteGroup({
+                                field: 'id',
+                                value: data.id
+                            }, function(err) {
+                                if (err) {
+                                    View.displayErr(err)
+                                } else {
+                                    View.displayMsg(`berhasil menghapus group ${params.value}`)
+                                }
+                            })
+                        } else {
+                            View.displayErr(`${params.value} tidak ada pada table ${table}`)
+                        }
+                    }
+
+                })
+            } else {
+                View.displayErr('table not found')
+            }
         } else {
             View.displayErr('input delete salah')
         }
@@ -223,7 +286,8 @@ class Controller {
         1. create <table> <value1> <value2> ....
         2. update <table> <id> <field> <value>
         3. addGroup <contact name> <group name>
-        4. show <table> <field> <value>
+        4. show <table> <field> <value>  (if field and value empty will show all)
+        5. delete <table> <field> <value>
         `)
     }
 }
