@@ -1,0 +1,19 @@
+class View{
+    static displayError(err){
+        console.log(err)
+    } 
+
+    static displayData(data){
+        console.log(data)
+    }
+
+    static help(){
+        console.log("-----help------")
+        console.log("node main.js help")
+        console.log("node main.js create Contact <contact_name> <company> <phone_number> <mail>")
+        console.log("node main.js create Group <group_name>")
+        console.log("node main.js invite <contact_name> <group_name>")
+    }
+}
+
+module.exports = View
