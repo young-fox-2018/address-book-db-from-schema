@@ -16,6 +16,9 @@ switch (inp[0]) {
             case 'update':
                 ContactController.update(inp.slice(2))
                 break;
+            case 'delete':
+                ContactController.delete(inp.slice(2))
+                break;
             default:
                 break;
         }

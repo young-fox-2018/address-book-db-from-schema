@@ -28,11 +28,20 @@ class Model {
         })
     }
     static update(dataObj, table, cb) {
-        let qry = `UPDATE ${table} SET ${dataObj.field} = "${dataObj.value}" WHERE id = ${dataObj.id}`
+        let qry = `UPDATE ${table} SET ${dataObj.field} = "${dataObj.updateValue}" WHERE ${dataObj.field} = "${dataObj.value}"`
         this.executeQuery(qry, err => {
             if (err) cb(err)
             else cb(null, [])
         })
+        // console.log(qry)
+    }
+    static delete(dataObj, table, cb) {
+        let qry = `DELETE FROM ${table} WHERE ${dataObj.field} = "${dataObj.value}"`
+        this.executeQuery(qry, err => {
+            if (err) cb(err)
+            else cb(null, [])
+        })
+        //console.log(qry)
     }
 }
 

@@ -1,24 +1,25 @@
 const Model = require('../models/model')
 const Contact = require('../models/contact')
+const View = require('../views/view')
 
 class ContactController {
     static findAll() {
         Model.findAll('Contacts', (err, data) => {
-            if (err) console.log(err)
-            else console.log(data)
+            if (err) View.showErr(err)
+            else View.showData(data)
         })
     }
     static findOne(data) {
-        // console.log(data)
+        // View.showData(data)
         Model.findOne({field: data[0], value: data[1]}, 'Contacts', (err, data) => {
-            if (err) console.log(err)
-            else console.log(data)
+            if (err) View.showErr(err)
+            else View.showData(data)
         })
     }
     static update(data) {
-        Model.update({id: data[0], field: data[1], value: data[2]}, 'Contacts', (err, data) => {
-            if (err) console.log(err)
-            else console.log('Successfully updated')
+        Model.update({field: data[0], value: data[1], updateValue: data[2]}, 'Contacts', (err, data) => {
+            if (err) View.showErr(err)
+            else View.showData('Successfully updated')
         })
     }
     static create(data) {
@@ -28,8 +29,14 @@ class ContactController {
             phone: data[2],
             email: data[3]
         }, err => {
-            if (err) console.log(err)
-            else console.log(`Successfully added new contacts`)
+            if (err) View.showErr(err)
+            else View.showData(`Successfully added new contacts`)
+        })
+    }
+    static delete(data) {
+        Model.delete({field: data[0], value: data[1]}, 'Contacts', (err, data) => {
+            if (err) View.showErr(err)
+            else View.showData('Successfully deleted!')
         })
     }
 }
