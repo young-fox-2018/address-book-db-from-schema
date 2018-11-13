@@ -24,6 +24,26 @@ class ControllerKontak{
             }
         })
     }
+
+    static delete(nama) {
+        Contact.deleteKontak(nama, function (err, data) {
+            if (err) {
+                View.viewError(err)
+            } else {
+                View.viewData(data)
+            }
+        })
+    }
+
+    static findAll() {
+        Contact.findAll("Kontak", function (err, data) {
+            if (err) {
+                View.viewError(err)
+            } else {
+                View.viewData(data)
+            }
+        })
+    }
 }
 
 module.exports = ControllerKontak

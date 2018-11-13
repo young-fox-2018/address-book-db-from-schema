@@ -1,5 +1,7 @@
 class KontakGrup{ 
-    static createKontakGrup() { }
+    static createKontakGrup() { 
+        
+    }
     static readKontakGrup() { }
     static updateKontakGrup() { }
     static deleteKontakGrup(){}

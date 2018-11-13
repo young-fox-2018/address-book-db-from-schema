@@ -13,7 +13,9 @@ class Controller {
                 } else if (syntax2 == "update") {
                     ControllerKontak.update(nama, namaPerusahaan, nomorTelepon, email, extension)
                 } else if (syntax2 == "delete") {
-                    ControllerKontak.delete(id, nama, namaPerusahaan, nomorTelepon, email)
+                    ControllerKontak.delete(nama)
+                } else if (syntax2 == "findAll") {
+                    ControllerKontak.findAll()
                 }
                 break;
 
@@ -26,7 +28,26 @@ class Controller {
                     ControllerGrup.update(nama, namaPerusahaan)
                 } else if (syntax2 == "delete") {
                     ControllerGrup.delete(nama)
+                } else if (syntax2 == "findAll") {
+                    ControllerGrup.findAll()
                 }
+                break;
+
+            case "kontakgrup":
+                if (syntax2 == "create") {
+                    ControllerGrup.create(nama, namaPerusahaan, nomorTelepon, email)
+                } else if (syntax2 == "read") {
+                    ControllerGrup.read(id, nama, namaPerusahaan, nomorTelepon, email)
+                } else if (syntax2 == "update") {
+                    ControllerGrup.update(nama, namaPerusahaan)
+                } else if (syntax2 == "delete") {
+                    ControllerGrup.delete(nama)
+                } else if (syntax2 == "findAll") {
+                    
+                }
+                break;
+            
+           
                 break;
 
             default:

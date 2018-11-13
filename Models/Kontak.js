@@ -58,6 +58,20 @@ class Kontak extends Model {
         })
     }
 
+    static deleteKontak(nama, cb) {
+        let tablename = "Kontak"
+        Model.findOne(nama, tablename, function(row) {
+            if (row) {
+                db.run(`DELETE FROM ${tablename} WHERE nama = "${nama}"`, function(err) {
+                    if (err) {
+                        cb(err)
+                    } else {
+                        cb(null)
+                    }
+                })
+            }
+        })
+    }
 }
 
 module.exports = Kontak

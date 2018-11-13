@@ -31,6 +31,16 @@ class ControllerGrup {
         })
     }
 
+    static findAll() {
+        Grup.findAll("Grup", function (err, data) {
+            if (err) {
+                View.viewError(err)
+            } else {
+                View.viewData(data)
+            }
+        })
+    }
+
 
 
 }

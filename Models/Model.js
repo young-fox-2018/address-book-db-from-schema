@@ -2,7 +2,6 @@ let db = require('../init')
 class Model {
     static findOne(nama, tablename, cb) {
         db.get(`SELECT * FROM ${tablename} WHERE nama = "${nama}"`, function (err, row) {
-            
             if (err) {
                 throw err
             } else {
@@ -15,8 +14,24 @@ class Model {
         })
     }
 
-    static readAll(tablename) {
-        db.get(`SELECT * FROM ${tablename}`)
+    static findAll(tablename, cb) {
+        db.all(`SELECT * FROM ${tablename}`,function(err, row) {
+            if (err) {
+                cb(err)
+            } else {
+                cb(row)
+            }
+        })
+    }
+
+    static findOne(name, tablename, cb) {
+        db.get(`SELECT * FROM ${tablename} WHERE nama = "${name}"`, function(err, row) {
+            if (err) {
+                cb(err)
+            } else {
+                cb(row)
+            }
+        })
     }
 
     static update() {
@@ -28,5 +43,6 @@ class Model {
     }
 
 }
+
 
 module.exports = Model
