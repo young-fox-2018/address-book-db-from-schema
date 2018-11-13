@@ -10,17 +10,18 @@ switch (command) {
         break;
     case "invite":
         Controller.invite(options)
+        break;
     case "findOne":
         Controller.findOne(options)
         break;
     case "findAll":
         Controller.findAll(options)
         break;
-    case "create":
-    
+    case "show":
+        Controller.show(options)
         break;
-    case "create":
-    
+    case "delete":
+        Controller.delete(options)
         break;
     case "help":
         View.help()

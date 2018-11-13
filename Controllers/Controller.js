@@ -26,11 +26,13 @@ class Controller{
     }
 
     static invite(options){
-        let nameContact = options[0]
+        // let nameContact = options[0]
+        let emailContact = options[0]
         let nameGroup = options[1]
 
         let option1 = {
-            name: nameContact
+            // name: nameContact
+            email: emailContact
         }
 
         let option2 = {
@@ -61,7 +63,7 @@ class Controller{
                                                 if(err){
                                                     View.displayError(err)
                                                 } else {
-                                                    View.displayData(`berhasil memasukkan ${nameContact} ke group ${nameGroup}`)
+                                                    View.displayData(`berhasil memasukkan ${data.email} ke group ${nameGroup}`)
                                                 }
                                             })
                                         }
@@ -69,7 +71,7 @@ class Controller{
                                 })
                                 
                             } else {
-                                View.displayError("contact/group tidak ada")
+                                View.displayError("group tidak ada")
                             }
                         }
                     })
@@ -80,23 +82,102 @@ class Controller{
         })
     }
 
-    // static findOne(){
-    // }
-
-    // static findAll(){
-
-    // }
-
     static update(){
 
     }
 
-    static delete(){
+    static delete(options){
+        if(options[0] === "Contact"){
+            let options2 = {
+                email: options[1]
+            }
+            Contact.findOne('Contacts',options2,function(err,data){
+                if(err){
+                    View.displayError(err)
+                } else {
+                    if(data){
+                        let options3 = {
+                            contactId : data.id
+                        }
+                        ContactGroup.delete('ContactsGroups',options3,function(err){
+                            if(err){
+                                View.displayError(err)
+                            } else {
+                                View.displayData(`Berhasil update data di ContactsGroups`)
+                            }
+                        })
 
+                        Contact.delete('Contacts',options2,function(err){
+                            if(err){
+                                View.displayError(err)
+                            } else {
+                                View.displayData(`Berhasil delete data ${options2.email}`)
+                            }
+                        })
+
+                    } else {
+                        View.displayError("data contact tidak ditemukan")
+                    }
+                }
+            })
+            
+        } else if(options[0] === "Group") {
+            let options2 = {
+                group_name: options[1]
+            }
+
+            Group.findOne('Groups',options2,function(err,data){
+                if(err){
+                    View.displayError(err)
+                } else {
+                    if(data){
+                        let options3 = {
+                            groupId : data.id
+                        }
+                        ContactGroup.delete('ContactsGroups',options3,function(err){
+                            if(err){
+                                View.displayError(err)
+                            } else {
+                                View.displayData(`Berhasil update data di ContactsGroups`)
+                            }
+                        })
+
+                        Group.delete('Groups',options2,function(err){
+                            if(err){
+                               View.displayError(err)
+                            } else {
+                               View.displayData(`Berhasil delete group ${options2.group_name}`)
+                            }
+                        })
+                    } else {
+                        View.displayError("data group tidak ditemukan")
+                    }
+                }
+            })
+            
+
+        }
     }
 
-    static showContact(){
-
+    static show(options){
+        // console.log(options)
+        if (options[0] == "Contact"){
+            ContactGroup.showContact(function(err,data){
+                if(err){
+                    View.displayError(err)
+                } else {
+                    View.displayData(data)
+                }
+            })
+        } else if (options[0] == "Group"){
+            Group.findAll('group_name','Groups',function(err,data){
+                if(err){
+                    View.displayError(err)
+                } else {
+                    View.displayData(data)
+                }
+            })
+        }
     }
 }
 

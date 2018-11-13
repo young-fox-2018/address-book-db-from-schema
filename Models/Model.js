@@ -25,8 +25,8 @@ class Model{
         })
     }
 
-    static findAll(table,callback){
-        db.all(`SELECT * FROM ${table}`,function(err,data){
+    static findAll(field,table,callback){
+        db.all(`SELECT ${field} FROM ${table}`,function(err,data){
             if(err){
                 callback(err)
             } else {
@@ -53,8 +53,19 @@ class Model{
         })
     }
 
-    static delete(table,id,callback){
-        let query = `DELETE FROM people WHERE id=${args[0]}`
+    static delete(table,options,callback){
+        // console.log(options)
+        let qFind = ``
+        for(let key in options){
+          if(typeof options[key] === 'number'){
+            qFind += `${key} = ${options[key]} AND `
+          } else {
+            qFind += `${key} = "${options[key]}" AND `
+          }
+        }
+
+        let query = `DELETE FROM ${table} WHERE ${qFind.slice(0,-4)}`
+        // console.log(query)
         db.run(query, function (err) {
             if (err) {
                 callback(err)
@@ -62,6 +73,10 @@ class Model{
                 callback(null)
             }
         });
+    }
+
+    static executeQuery(sql){
+
     }
     
 }

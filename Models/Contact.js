@@ -15,17 +15,30 @@ class Contact extends Model{
     static create(name, company, phone_number, email, callback){
         let newContact = new Contact(name, company, phone_number, email)
 
-        let qInsert = `INSERT INTO Contacts(name, company, phone_number, email)
-                  VALUES("${newContact.name}","${newContact.company}","${newContact.phone_number}","${newContact.email}")
-                  `
-    
-        db.run(qInsert, function(err){
-        if(err){
-            callback(err)
-        } else {
-            callback(null)
+        let option = {
+            email: email
         }
+        Contact.findOne('Contacts',option,function(err,data){
+            if(err){
+                callback(err)
+            } else {
+                if(data){
+                    callback("data email sudah terpakai")
+                } else {
+                    let qInsert = `INSERT INTO Contacts(name, company, phone_number, email)
+                                    VALUES("${newContact.name}","${newContact.company}","${newContact.phone_number}","${newContact.email}")
+                                    `
+                    db.run(qInsert, function(err){
+                    if(err){
+                        callback(err)
+                    } else {
+                        callback(null)
+                    }
+                    })
+                }
+            }
         })
+        
     }
 }
 
