@@ -56,6 +56,20 @@ class Model{
             }
         })
     }
+
+    static delete(tableName, input, cb){
+        let sql = `DELETE FROM ${tableName}
+        WHERE ${input.field} = "${input.value}"`
+
+        db.run(sql, function(err){
+            if(err){
+                cb(err)
+            }
+            else{
+                cb(null, this)
+            }
+        })
+    }
 }
 
 module.exports = Model;

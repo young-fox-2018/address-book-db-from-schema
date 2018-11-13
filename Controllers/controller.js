@@ -88,6 +88,33 @@ class Controller{
                     default:
                         break;
                 }
+
+            case "delete":
+                switch (option[0]) {
+                    case "contact":
+                        Controller.deleteContact({
+                            field: option[1],
+                            value: option[2]
+                        })
+                    break;
+                    case "group":
+                        Controller.deleteGroup({
+                            field: option[1],
+                            value: option[2]
+                        })
+                    break;
+                    case "contactGroup":
+                        Controller.deleteContactGroup({
+                            field: option[1],
+                            value: option[2]
+                        })
+                    break;
+                
+                    default:
+                        break;
+                }
+
+
             default:
                 break;
         }
@@ -186,6 +213,50 @@ class Controller{
             }
             else{
                 View.displaySuccess(data)
+            }
+        })
+    }
+
+    static deleteContact(input){
+        Contact.delete(input,function(err, data){
+            if(err){
+                View.displayErr(err)
+            }
+            else{
+                View.displaySuccess(`successfully deleted contact`)
+                ContactGroup.delete({
+                    field : "contactId",
+                    value: input.value
+                }, function(err){
+                    if(err){
+                        View.displayErr(err)
+                    }
+                    else{
+                        View.displaySuccess(`Sucessfully deleted contact group`)
+                    }
+                })
+            }
+        })
+    }
+
+    static deleteGroup(input){
+        Group.delete(input,function(err, data){
+            if(err){
+                View.displayErr(err)
+            }
+            else{
+                View.displaySuccess(`successfully deleted group`)
+                ContactGroup.delete({
+                    field : "groupId",
+                    value: input.value
+                }, function(err){
+                    if(err){
+                        View.displayErr(err)
+                    }
+                    else{
+                        View.displaySuccess(`Sucessfully deleted contact group`)
+                    }
+                })
             }
         })
     }

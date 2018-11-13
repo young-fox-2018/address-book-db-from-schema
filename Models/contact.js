@@ -13,6 +13,10 @@ class Contacts extends Model{
     static readAll(input, cb){
         super.readAll("contacts", input, cb)
     }
+
+    static delete(input, cb){
+        super.delete("contacts", input, cb)
+    }
 }
 
 module.exports = Contacts

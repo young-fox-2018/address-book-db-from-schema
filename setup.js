@@ -14,7 +14,7 @@ const sqlGroupsTable = `CREATE TABLE IF NOT EXISTS Groups(
     name VARCHAR
 );`
 
-const sqlContactsGroupsTable = `CREATE TABLE IF NOT EXISTS ContactsGroup(
+const sqlContactsGroupsTable = `CREATE TABLE IF NOT EXISTS ContactsGroups(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contactId INTEGER,
     groupId INTEGER,

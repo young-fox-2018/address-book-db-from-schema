@@ -13,6 +13,10 @@ class Groups extends Model{
     static readAll(input, cb){
         super.readAll("groups", input, cb)
     }
+
+    static delete(input, cb){
+        super.delete("groups", input, cb)
+    }
 }
 
 module.exports = Groups
