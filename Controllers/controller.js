@@ -63,6 +63,7 @@ class Controller{
                     default:
                         break;
                 }
+                break;
 
             case "findAll":
                 switch (option[0]) {
@@ -88,6 +89,7 @@ class Controller{
                     default:
                         break;
                 }
+                break;
 
             case "delete":
                 switch (option[0]) {
@@ -113,6 +115,7 @@ class Controller{
                     default:
                         break;
                 }
+                break;
 
 
             default:
