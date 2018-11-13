@@ -21,11 +21,30 @@ class ContactGroupController {
         })
     }
     static add(contactId, groupId) {
-        ContactGroup.add(contactId, groupId, function (err, array) {
+        ContactGroup.add(contactId, groupId, function (err) {
             if (err) {
                 View.showErr(err)
             } else {
-                View.showData(`Successfully added contact ID : ${contactId} and group ID : ${groupId}, Total contactGroup: ${array.length}`)
+                View.showData(`Successfully added contact ID : ${contactId} and group ID : ${groupId}`)
+            }
+        })
+    }
+    static showContactGroup(groupName) {
+        ContactGroup.showcontactGroup(groupName, function (err, data) {
+            if (err) {
+                View.showErr(err)
+            } else {
+                let listContact = ''
+                data.forEach(function (element, index) {
+                    if (index !== data.length - 1) {
+                        listContact += `${index + 1}.${element.name} \n`
+                    } else {
+                        listContact += `${index + 1}.${element.name}`
+                    }
+                })
+                View.showData(`Group ${groupName}:
+    
+${listContact}`)
             }
         })
     }

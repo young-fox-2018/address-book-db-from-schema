@@ -67,6 +67,21 @@ class Model {
             }
         })
     }
+    static findContactGroup(tableContacts, tableGroup, tablecontactGroup, groupName, cb) {
+        db.all(`SELECT a.id, a.name FROM ${tableContacts} a
+                INNER JOIN ${tablecontactGroup} b
+                ON a.id = b.contactId
+                INNER JOIN ${tableGroup} c
+                ON c.id = b.groupId
+                WHERE c.name = "${groupName}"
+                GROUP BY a.name`, function (err, data) {
+                if (err) {
+                    cb(err, null)
+                } else {
+                    cb(null, data)
+                }
+            })
+    }
 }
 
 

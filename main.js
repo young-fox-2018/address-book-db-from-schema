@@ -59,6 +59,9 @@ switch (argv[2]) {
             case 'add':
                 ContactGroupController.add(argv[4], argv[5])
                 break;
+            case 'showContactGroup':
+                ContactGroupController.showContactGroup(argv[4])
+                break
 
         }
 

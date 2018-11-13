@@ -20,7 +20,7 @@ class ContactGroup {
     }
     static readDummyData(cb) {
         for (let i = 0; i < dataContactGroup.length; i++) {
-            let dummyContactGroup = `(null, "${dataContactGroup[i].contactId}", "${dataContactGroup[i].groupId}")`
+            let dummyContactGroup = `(null, ${dataContactGroup[i].contactId}, ${dataContactGroup[i].groupId})`
             Model.create('contactGroup', dummyContactGroup, function (err) {
                 if (err) {
                     cb(err)
@@ -35,13 +35,16 @@ class ContactGroup {
             if (err) {
                 cb(err)
             } else {
-                Model.findAll('contactGroup', function (err, array) {
-                    if (err) {
-                        cb(err, null)
-                    } else {
-                        cb(null, array)
-                    }
-                })
+                cb(null)
+            }
+        })
+    }
+    static showcontactGroup(groupName, cb) {
+        Model.findContactGroup('Contacts', 'Groups', 'contactGroup', groupName, function (err, data) {
+            if (err) {
+                cb(err, null)
+            } else {
+                cb(null, data)
             }
         })
     }
