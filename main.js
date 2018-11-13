@@ -15,13 +15,21 @@ switch (command) {
          
     case 'listOne':
         Controller.readOne(option)
+        break;
 
     case 'update':
         Controller.update(option)
+        break;
 
     case 'delete':
         Controller.delete(option)
+        break;
+
+    case 'help':
+        Controller.help()
+        break;
 
     default:
+        Controller.help()
         break;
 }
