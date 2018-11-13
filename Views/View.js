@@ -1,5 +1,7 @@
 class View {
-    static viewError() {
+    static viewError(err) {
+        console.log(err);
+        
     }
 
     static viewData(id) {

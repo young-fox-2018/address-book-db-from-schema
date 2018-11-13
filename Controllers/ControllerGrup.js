@@ -11,6 +11,26 @@ class ControllerGrup {
         })
     }
 
+    static update(nama, namabaru) {
+        Grup.updateGrup(nama, namabaru, function(err, data) {
+            if (err) {
+                View.viewError(err)
+            } else {
+                View.viewData(data)
+            }
+        })
+    }
+
+    static delete(nama) {
+        Grup.deleteGrup(nama, function (err, data) {
+            if (err) {
+                View.viewError(err)
+            } else {
+                View.viewData(data)
+            }
+        })
+    }
+
 
 
 }

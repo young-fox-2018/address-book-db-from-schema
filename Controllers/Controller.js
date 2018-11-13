@@ -3,7 +3,7 @@ let ControllerGrup = require('./ControllerGrup')
 let ControllerKontak = require('./ControllerKontak')
 
 class Controller {
-    static execute(syntax, syntax2, nama, namaPerusahaan, nomorTelepon, email) {
+    static execute(syntax, syntax2, nama, namaPerusahaan, nomorTelepon, email, extension, extension2) {
         switch (syntax) {
             case "kontak":
                 if (syntax2 == "create") {
@@ -11,7 +11,7 @@ class Controller {
                 } else if (syntax2 == "read") {
                     ControllerKontak.read()
                 } else if (syntax2 == "update") {
-                    ControllerKontak.update(id, nama, namaPerusahaan, nomorTelepon, email)
+                    ControllerKontak.update(nama, namaPerusahaan, nomorTelepon, email, extension)
                 } else if (syntax2 == "delete") {
                     ControllerKontak.delete(id, nama, namaPerusahaan, nomorTelepon, email)
                 }
@@ -23,9 +23,9 @@ class Controller {
                 } else if (syntax2 == "read") {
                     ControllerGrup.read(id, nama, namaPerusahaan, nomorTelepon, email)
                 } else if (syntax2 == "update") {
-                    ControllerGrup.update(id, nama, namaPerusahaan, nomorTelepon, email)
+                    ControllerGrup.update(nama, namaPerusahaan)
                 } else if (syntax2 == "delete") {
-                    ControllerGrup.delete(id, nama, namaPerusahaan, nomorTelepon, email)
+                    ControllerGrup.delete(nama)
                 }
                 break;
 

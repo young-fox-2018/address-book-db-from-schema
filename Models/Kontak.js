@@ -18,19 +18,42 @@ class Kontak extends Model {
             "${nomorTelepon}",
             "${email}"
         )`
-            
-        Model.findOne(nama, tablename, function(row) {
-            
+
+        Model.findOne(nama, tablename, function (row) {
             if (row) {
                 cb("Nama sudah ada")
             } else {
-                db.run(query,function(err) {
+                db.run(query, function (err) {
                     if (err) {
                         cb(err)
                     } else {
                         cb(null)
                     }
                 })
+            }
+        })
+    }
+
+    static updateKontak(nama, namabaru, namaPerusahaan, nomorTelepon, email, cb) {
+        let tablename = "Kontak"
+        
+        Model.findOne(nama, tablename, function (row) {
+            if (row) {
+                db.run(`UPDATE Kontak SET 
+                nama = "${namabaru}",
+                nama_perusahaan = "${namaPerusahaan}",
+                nomor_telepon = "${nomorTelepon}",
+                email = "${email}"
+                 WHERE nama = "${nama}"`, function (err) {
+                        if (err) {
+                            cb(err)
+                        } else {
+                            cb(null)
+                        }
+                    })
+
+            } else {
+                cb("Nama belum ada di kontak, insert dolooo")
             }
         })
     }

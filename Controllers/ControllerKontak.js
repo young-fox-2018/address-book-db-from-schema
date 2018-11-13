@@ -14,6 +14,16 @@ class ControllerKontak{
     static read() {
         Contact.read()
     }
+
+    static update(nama, namabaru, namaPerusahaan, nomorTelepon, email) {
+        Contact.updateKontak(nama, namabaru, namaPerusahaan, nomorTelepon, email, function (err, data) {
+            if (err) {
+                View.viewError(err)
+            } else {
+                View.viewData(data)
+            }
+        })
+    }
 }
 
 module.exports = ControllerKontak
