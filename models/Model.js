@@ -27,8 +27,7 @@ class Model {
             arr.push(`${key} = "${options[key]}"`);
         }
         
-        const query = `UPDATE ${table} SET ${arr.join(', ')} WHERE id = ${id}`;
-        console.log(query);
+        const query = `UPDATE ${table} SET ${arr.join(', ')} WHERE id = ${id}`;        
 
         db.run(query, function(err) {
             if (err) {
@@ -52,19 +51,18 @@ class Model {
 
     }
 
-    static findOne(table, options, callback) {        
+    static findOne(table, options, callback) {
         const stmt = db.prepare(`SELECT * FROM ${table} WHERE ${options.field} = ?`);        
         stmt.get(options.value, function(err, row) {
             if (err) {
                 callback({message: `Error getting data ${options.value}`, err: err});
-            } else {                
+            } else {                         
                 callback(null, row);
-
             }
         });
     }
 
-    static delete(table, options, callback) {        
+    static delete(table, options, callback) {
         const stmt = db.prepare(`DELETE FROM ${table} WHERE ${options.field} = ?`);        
         stmt.run(options.value, function(err) {
             if (err) {

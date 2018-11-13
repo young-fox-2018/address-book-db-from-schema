@@ -9,7 +9,6 @@ class Contacts extends Model{
                 callback(null);
             }
         });
-
     }
 
     static findAll(callback) {
@@ -19,7 +18,7 @@ class Contacts extends Model{
             } else {
                 callback(null, rows);
             }
-        })
+        });
     }
 
     static findOne(options, callback) {
@@ -29,7 +28,7 @@ class Contacts extends Model{
             } else {
                 callback(err, row);
             }
-        })
+        });
     }
 
     static update(id, options, callback) {
@@ -39,7 +38,7 @@ class Contacts extends Model{
             } else {
                 callback(null);
             }
-        })
+        });
     }
 
     static delete(options, callback) {

@@ -3,12 +3,15 @@ class View {
     static help() {
         console.log(`Address Book Beta Version`);
         console.log(`=========================`);
-        console.log(`node setup ==> For create tables`);
-        console.log(`node seed_data ==> Generate dummy datas`);
-        console.log(`node main getAllContacts`);
-        console.log(`node main getContact <field> <value>`);
-        console.log(`node main addContact <contact_name> <company> <phone> <email>`);
-        console.log(`node main updateContact <id_contact> <field> <value> [<field> <value>]`);                
+        console.log(`node setup ==> Create tables`);
+        console.log(`node seed_data ==> Generate dummy data`);
+        console.log(`node main show (contacts/groups)`);
+        console.log(`node main add (contact/group) <value> <value> <value>`);
+        console.log(`node main update (contact/group) <field> <value> [<field> <value>]`);
+        console.log(`node main delete (contact/group) id <value>`);
+        console.log(`node main find (contact/group) <field> <value>`);
+        console.log(`node main invite (group_name) <fieldContact> <valueContact>`);
+        console.log(`node main kick (group_name) <fieldContact> <valueContact>`);
     }
 
     static displayError(err) {
