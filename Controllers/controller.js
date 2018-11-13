@@ -163,6 +163,26 @@ class Controller{
             }
             else{
                 View.displaySuccess(data)
+                ContactGroup.readAll({
+                    field : "contactId",
+                    value : data.id
+                }, function(err, groups){
+                    if(err){
+                        View.displayErr(err);
+                    }
+                    else{
+                        data.groups = []
+                        for(let i = 0; i < groups.length; i++){
+                            Group.readOne({
+                                field: "id",
+                                value: groups[i].groupId
+                            },function(err,grup){
+                                data.groups.push(grup.name)
+                                View.displaySuccess(data)
+                            })
+                        }
+                    }
+                })
             }
         })
     }
