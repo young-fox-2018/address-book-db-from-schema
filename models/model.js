@@ -58,6 +58,15 @@ class Model {
                 }
             })
     }
+    static delete(tableName, fieldId, id, cb) {
+        db.run(`DELETE FROM ${tableName} WHERE ${fieldId}= "${id}"`, function (err) {
+            if (err) {
+                cb(err)
+            } else {
+                cb(null)
+            }
+        })
+    }
 }
 
 

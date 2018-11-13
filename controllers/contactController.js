@@ -50,6 +50,15 @@ class ContactController {
             }
         })
     }
+    static delete(fieldId, id) {
+        Contact.delete(fieldId, id, function (err) {
+            if (err) {
+                View.showErr(err)
+            } else {
+                View.showData(`Data with id ${id} has been successfully deleted`)
+            }
+        })
+    }
 
 
 

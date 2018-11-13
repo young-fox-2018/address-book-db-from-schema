@@ -22,6 +22,9 @@ switch (argv[2]) {
             case 'update':
                 ContactController.update(argv[4], argv[5], argv[6], argv[7])
                 break;
+            case 'delete':
+                ContactController.delete(argv[4], argv[5])
+                break;
         }
         break;
     case 'groups':
