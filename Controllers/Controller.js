@@ -1,6 +1,7 @@
 let View = require('../Views/View')
 let ControllerGrup = require('./ControllerGrup')
 let ControllerKontak = require('./ControllerKontak')
+let ControllerKontakGrup = require('./ControllerKontakGrup')
 
 class Controller {
     static execute(syntax, syntax2, nama, namaPerusahaan, nomorTelepon, email, extension, extension2) {
@@ -35,20 +36,16 @@ class Controller {
 
             case "kontakgrup":
                 if (syntax2 == "create") {
-                    ControllerGrup.create(nama, namaPerusahaan, nomorTelepon, email)
-                } else if (syntax2 == "read") {
-                    ControllerGrup.read(id, nama, namaPerusahaan, nomorTelepon, email)
-                } else if (syntax2 == "update") {
-                    ControllerGrup.update(nama, namaPerusahaan)
-                } else if (syntax2 == "delete") {
-                    ControllerGrup.delete(nama)
+                    ControllerKontakGrup.create(nama, namaPerusahaan)
                 } else if (syntax2 == "findAll") {
-                    
+                    ControllerGrup.findAll()
+                } else if (syntax2 == "update") {
+                    // ControllerGrup.update(nama, namaPerusahaan)
+                } else if (syntax2 == "delete") {
+                    ControllerGrup.delete(nama, namaPerusahaan)
                 }
                 break;
             
-           
-                break;
 
             default:
                 View.viewHelp()

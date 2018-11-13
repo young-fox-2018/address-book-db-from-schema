@@ -13,9 +13,11 @@ class View {
         console.log(`Available Syntax: \n 
         kontak <syntax. \n
         grup <syntax> \n
+        kontakgrup <syntax> \n
         \n
         Syntax list: \n
         create \n
+        add (for kontakgrup) \n
         read \n
         update \n
         delete \n`);

@@ -1,4 +1,5 @@
-class KontakGrup{ 
+let Model = require('./Model')
+class KontakGrup extends Model{ 
     static createKontakGrup() { 
         
     }
