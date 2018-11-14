@@ -16,7 +16,13 @@ class Model {
             if (err) {
                 callback(err);
             } else {
-                callback(null);
+                if(this.changes == 0) {
+                    // biar err kalo gada data
+                    callback(`data not found`)
+                  } else{
+    
+                      callback(null)
+                  }
             }
         })
 
@@ -39,6 +45,7 @@ class Model {
         }else{
             query = `SELECT * FROM ${tablename} WHERE ${param.field} = ${param.value}`
         }
+        
         db.get(query,function(err,row){
             if(err){
                 callback(err)
@@ -56,7 +63,13 @@ class Model {
           if(err){
             callback(err)
           } else {
-            callback(null)
+            if(this.changes == 0) {
+                // biar err kalo gada data
+                callback(`data not found`)
+              } else{
+
+                  callback(null)
+              }
           }
         })
       }
@@ -66,9 +79,17 @@ class Model {
           if(err){
             callback(err)
           } else {
-            callback(null)
+            if(this.changes == 0) {
+                // biar err kalo gada data
+                callback(`data not found`)
+              } else{
+
+                  callback(null)
+              }
+              
+          
           }
         })
-    }
+    
 }
 module.exports = Model

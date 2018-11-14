@@ -7,7 +7,7 @@ const View = require('../Views/View')
 class Controller {
 
     static create(options){
-        if(options[0].toLowerCase() === "contact"){
+        if(options[0].toLowerCase() === "contacts"){
             if(options.length !== 5){
                 View.displayErr(`silahkan lengkapi data : name , company , phone , email`)
             }else{
@@ -20,7 +20,7 @@ class Controller {
                     }
                 })
             }
-        }else if(options[0].toLowerCase() === "group"){
+        }else if(options[0].toLowerCase() === "groups"){
             if(options.length !== 2){
                 View.displayErr(`silahkan lengkapi data: name`)
             }else{
@@ -47,7 +47,7 @@ class Controller {
         }
     }
     static show(options){
-        if(options[0] === "contacts" || options[0] === "groups" || options[0] === "contactgroups"){
+        if(options[0] === "groups" || options[0] === "contactgroups"){
             Model.findall(options[0],function(err,rows){
                 if(err){
                     View.displayErr(err)
@@ -55,6 +55,17 @@ class Controller {
                     View.displaysuccess(rows)
                 }
             })
+        }else if(options[0] === "contacts"){
+            Model.findall(`(SELECT table1.name,company,phone,email,group_concat(groups.name) AS group_name
+            FROM(SELECT * FROM contacts LEFT JOIN contactgroup ON contacts.id = contactgroup.contact_id)AS table1 
+            LEFT JOIN  groups ON table1.group_id = groups.id 
+            GROUP BY table1.name)`,function(err,rows){
+                if(err){
+                    View.displayErr(err)
+                }else{
+                    View.displaysuccess(rows)
+                }
+            })   
         }
     }
     static find(options){
@@ -62,13 +73,31 @@ class Controller {
             field:options[1],
             value:options[2]
         }
-        Model.findone(options[0],param,function(err,row){
-            if(err){
-                View.displayErr(err)
-            }else{
-                View.displaysuccess(null,row)
-            }
-        })
+        if(options[0] !== "contacts"){
+            Model.findone(options[0],param,function(err,row){
+                if(err){
+                    View.displayErr(err)
+                }else if(row === undefined){
+                    View.displayErr(`data not found`)
+                }else{
+                    View.displaysuccess(row)
+                }
+            })
+        }else if(options[0] === "contacts" ){
+            Model.findone(`(SELECT table1.name,company,phone,email,group_concat(groups.name) AS group_name
+            FROM(SELECT * FROM contacts LEFT JOIN contactgroup ON contacts.id = contactgroup.contact_id)AS table1 
+            LEFT JOIN  groups ON table1.group_id = groups.id 
+            GROUP BY table1.name)`,param,function(err,row){
+                if(err){
+                    View.displayErr(err)
+                }else if(row === undefined){
+                    View.displayErr(`data not found`)
+                }else{
+                    View.displaysuccess(row)
+                }
+
+            })
+        }
     }
     static help(){
         let data = `
@@ -95,6 +124,9 @@ class Controller {
 
         
 
+    }
+    static ShowAllContact(options){
+        Contact.showAll
     }
 }
 module.exports = Controller

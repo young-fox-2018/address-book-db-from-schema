@@ -3,9 +3,8 @@ class View {
         console.log(data)
     }
     static displaysuccess(data){
-        if(data !== null){
-            console.log(data)
-        }
+        console.log(data)
+        
     }
 }
 module.exports = View
