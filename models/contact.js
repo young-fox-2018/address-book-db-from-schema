@@ -49,9 +49,9 @@ class  Contact extends Model{
     }
     static showContact(callback){
         const query = `SELECT Contacts.name AS contactname, Contacts.company, Contacts.phone_num, Contacts.email, GROUP_CONCAT(Groups.name) AS groupname FROM  
-                        ((Groupcontacts INNER JOIN Contacts ON Groupcontacts.id_contact = Contacts.id)
-                        INNER JOIN Groups ON Groupcontacts.id_group = Groups.id)
-                        GROUP BY Contacts.id`
+                        (( Contacts LEFT JOIN Groupcontacts  ON Groupcontacts.id_contact = Contacts.id)
+                        LEFT JOIN Groups ON Groupcontacts.id_group = Groups.id)
+                        GROUP BY Contacts.name`
         db.all(query, function(err, data){
                 if(err) {
                     callback(err)
