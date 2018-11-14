@@ -7,6 +7,9 @@ class Groupcontacts extends Model{
         this.id_group = id_group
     }
 
+    static execute(query, callback){
+        super.execute(query, callback)
+    }
 }   
 
 module.exports = Groupcontacts

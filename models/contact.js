@@ -2,19 +2,63 @@ const db = require('./../db')
 const Model = require('./model')
 
 class  Contact extends Model{
-    constructor(name, company, no_telp, email){
+    constructor(name, company, phone_num, email){
         this.name = name
         this.company = company,
-        this.no_telp = no_telp,
+        this.phone_num = phone_num,
         this.email = email
+    }
+    static findOne(params, callback){
+        super.findOne("Contacts", params, function(err,row){
+            if(err){
+                callback(err)
+            }else{
+               callback(null,row)
+            }
+        })
     }
 
     static create_contact(data,callback){
-        db.run(`INSERT INTO Contacts(name,company,no_telp,email) VALUES (?,?,?,?)`, data, function(err) {
+        db.run(`INSERT INTO Contacts(name,company,phone_num,email) VALUES (?,?,?,?)`, data, function(err) {
             if (err) {
               callback(err)
+            }else{
+                callback(null)
             }
           });
+    }
+
+    static updateContact(params, callback){
+        super.update("Contacts", params, function(err){
+            if(err){
+                callback(err)
+            }else{
+                callback(null)
+            }
+        })
+    }
+
+    static deleteContact(params, callback){
+        super.delete("Contacts", params, function(err){
+            if(err){
+                callback(err)
+            }else{
+                callback(null)
+            }
+        })
+    }
+    static showContact(callback){
+        const query = `SELECT Contacts.name AS contactname, Contacts.company, Contacts.phone_num, Contacts.email, GROUP_CONCAT(Groups.name) AS groupname FROM  
+                        ((Groupcontacts INNER JOIN Contacts ON Groupcontacts.id_contact = Contacts.id)
+                        INNER JOIN Groups ON Groupcontacts.id_group = Groups.id)
+                        GROUP BY Contacts.id`
+        db.all(query, function(err, data){
+                if(err) {
+                    callback(err)
+                }else{
+                    callback(null,data)
+                }
+        })
     }
 
 }

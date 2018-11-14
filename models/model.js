@@ -5,9 +5,24 @@ class Model {
         db.run(query, function(err){
             if(err) {
                 callback(err)
-            } 
+            }else{
+                callback(null)
+            }
         })
     }
+    static findOne(tablename, input, callback) {
+        const findOneQuery = `
+                            SELECT * FROM ${tablename}
+                            WHERE ${input.field} LIKE "${input.value}%"
+                            `
+        db.get(findOneQuery, function(err,row) {
+          if(err) {
+            callback(err)
+          } else {
+            callback(null, row)
+          }
+        })
+      }
 
     static getAll(tablename, callback)
     {
@@ -22,18 +37,22 @@ class Model {
     }
 
     static update(tablename, data, callback){
-        Model.execute(`UPDATE ${tablename} SET (${data.field} = ${data.value}) WHERE
+        Model.execute(`UPDATE ${tablename} SET ${data.field} = "${data.value}" WHERE
         id = ${data.id};`, function(err){
             if(err){
                 callback(err)
+            }else{
+                callback(null)
             }
         })
     }
     
-    static delete(tablename, data){
+    static delete(tablename, data, callback){
         Model.execute(`DELETE FROM ${tablename} WHERE id =  ${data.id};`, function(err){
             if(err){
                 callback(err)
+            }else{
+                callback(null)
             }
         } )
     }

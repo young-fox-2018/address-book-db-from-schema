@@ -5,8 +5,9 @@ db.serialize(function(){
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(50),     
         company VARCHAR(50),
-        no_telp VARCHAR(17),
-        email VARCHAR (50)
+        phone_num VARCHAR(17),
+        email VARCHAR (50),
+        CONSTRAINT field_unique UNIQUE (phone_num, email)
         );`
     db.run("DROP TABLE IF EXISTS Contacts;")
 
