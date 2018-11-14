@@ -19,13 +19,13 @@ class  Contact extends Model{
     }
 
     static create_contact(data,callback){
-        db.run(`INSERT INTO Contacts(name,company,phone_num,email) VALUES (?,?,?,?)`, data, function(err) {
-            if (err) {
-              callback(err)
+        super.create("Contacts", "name,company,phone_num,email", data, function(err){
+            if(err){
+                callback(err)
             }else{
                 callback(null)
             }
-          });
+        })
     }
 
     static updateContact(params, callback){

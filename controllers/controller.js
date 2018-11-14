@@ -179,6 +179,125 @@ class Controller {
         })
     }
 
+    static invite(params){
+        let findIdContact ={
+            field: "name",
+            value: params[0]
+        }
+        Contact.findOne(findIdContact, function(err,data){
+            if(err){
+                View.displayError(err)
+            }else{
+                if(data){
+                    // console.log(data)
+                    let findIdGroup ={
+                        field: "name",
+                        value: params[1]
+                    }
+                    Group.findOne(findIdGroup, function(err,data2){
+                        if(err){
+                            View.displayError(err)
+                        }else{
+                            if(data2){
+                                let checkIsMember = {
+                                    field: "id_contact",
+                                    value: data.id
+                                }
+                                Groupcontacts.findOne(checkIsMember, function(err,data3){
+                                    if(err) {
+                                        View.displayError(err)
+                                    }else{
+                                        if(!data3){
+                                            let params = [data.id,data2.id]
+                                            Groupcontacts.invite(params, function(err){
+                                                if(err){
+                                                    View.displayError(err)
+                                                }else{
+                                                    View.displaySuccess(`${data.name} has been invited into ${data2.name}`)
+                                                }
+                                            })
+                                        }else{
+                                            View.displayError({
+                                                message : "user already in group"
+                                            })  
+                                        }
+                                    }
+                                })     
+                            }else{
+                                View.displayError({
+                                    message : "group not found"
+                                })
+                            }
+                        }
+                    })
+                }else{
+                    View.displayError({
+                        message : "user not found"
+                    })
+                }
+            }
+        })
+    }
+
+    static kick(params){
+        let findIdContact ={
+            field: "name",
+            value: params[0]
+        }
+        Contact.findOne(findIdContact, function(err,data){
+            if(err){
+                View.displayError(err)
+            }else{
+                if(data){
+                    // console.log(data)
+                    let findIdGroup ={
+                        field: "name",
+                        value: params[1]
+                    }
+                    Group.findOne(findIdGroup, function(err,data2){
+                        if(err){
+                            View.displayError(err)
+                        }else{
+                            if(data2){
+                                let checkIsMember = {
+                                    field: "id_contact",
+                                    value: data.id
+                                }
+                                Groupcontacts.findOne(checkIsMember, function(err,data3){
+                                    if(err) {
+                                        View.displayError(err)
+                                    }else{
+                                        if(data3){
+                                            Groupcontacts.kick(data3, function(err){
+                                                if(err){
+                                                    View.displayError(err)
+                                                }else{
+                                                    View.displaySuccess(`${data.name} has been kicked from ${data2.name}`)
+                                                }
+                                            })
+                                        }else{
+                                            View.displayError({
+                                                message : "user not in group"
+                                            })  
+                                        }
+                                    }
+                                })     
+                            }else{
+                                View.displayError({
+                                    message : "group not found"
+                                })
+                            }
+                        }
+                    })
+                }else{
+                    View.displayError({
+                        message : "user not found"
+                    })
+                }
+            }
+        })
+    }
+
     static help(){
         View.help()
     }

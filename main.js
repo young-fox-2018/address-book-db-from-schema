@@ -41,6 +41,10 @@ switch(argv[0]) {
             default : Controller.help()
         }
         break;
+    case ('invite') : Controller.invite(argv.slice(1))
+        break;
+    case ('kick') : Controller.kick(argv.slice(1))
+        break;
     default : Controller.help()
         break;
 }

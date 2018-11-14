@@ -7,13 +7,13 @@ class Group extends Model{
     }
 
     static create_group(data,callback){
-        db.run(`INSERT INTO Groups(name) VALUES (?)`, data, function(err) {
-            if (err) {
-              callback(err)
+        super.create("Groups", "name", data, function(err){
+            if(err){
+                callback(err)
             }else{
                 callback(null)
             }
-          });
+        }) 
     }
     static findOne(params, callback){
         super.findOne("Groups", params, function(err,row){

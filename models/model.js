@@ -10,6 +10,20 @@ class Model {
             }
         })
     }
+
+    static create(tablename, params, data, callback) {
+        let values = []
+        data.forEach(element => {
+            values.push('?')
+        });
+        db.run(`INSERT INTO ${tablename}(${params}) VALUES (${values})`,data, function(err) {
+            if (err) {
+              callback(err)
+            }else{
+                callback(null)
+            }
+          });
+    }
     static findOne(tablename, input, callback) {
         const findOneQuery = `
                             SELECT * FROM ${tablename}
@@ -22,7 +36,7 @@ class Model {
             callback(null, row)
           }
         })
-      }
+    }
 
     static getAll(tablename, callback)
     {
