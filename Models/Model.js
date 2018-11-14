@@ -24,15 +24,7 @@ class Model {
         })
     }
 
-    static findOne(name, tablename, cb) {
-        db.get(`SELECT * FROM ${tablename} WHERE nama = "${name}"`, function(err, row) {
-            if (err) {
-                cb(err)
-            } else {
-                cb(row)
-            }
-        })
-    }
+    
 
     static update() {
 
