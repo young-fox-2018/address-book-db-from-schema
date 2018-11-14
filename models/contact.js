@@ -12,6 +12,11 @@ class Contact extends Model{
       }
     })
   }
+  // static delete(input) {
+  //   Model.delete('contact', input, function (err, data) {
+
+  //   })
+  // }
 }
 
 

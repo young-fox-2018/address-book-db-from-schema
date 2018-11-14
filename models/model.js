@@ -15,7 +15,12 @@ class Model{
         if (err) {
             cb(err);
         } else {
-            cb(null);
+          if(this.changes == 0) {
+            // biar err kalo gada data
+            cb(`data not found`)
+          } else 
+            cb(null)
+          }
         }
     })
   }
@@ -55,7 +60,12 @@ class Model{
       if(err){
         cb(err)
       } else {
-        cb(null)
+        if(this.changes == 0) {
+          // biar err kalo gada data
+          cb(`data not found`)
+        } else 
+          cb(null)
+        }
       }
     })
   }
@@ -71,13 +81,15 @@ class Model{
       if(err){
         cb(err)
       } else {
-        cb(null)
+        if(this.changes == 0) {
+          // biar err kalo gada data
+          cb(`data not found`)
+        } else 
+          cb(null)
+        }
       }
     })
   }
 
-  static join(table){
-    
-  }
 }
 module.exports = Model
