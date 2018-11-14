@@ -2,6 +2,7 @@ const Contact = require("../Models/contact");
 const Group = require("../Models/group");
 const ContactGroup = require("../Models/contact-Group");
 const View = require("../Views/view")
+const db = require("../Database/database")
 
 class Controller{
 
@@ -33,6 +34,7 @@ class Controller{
                         break;
 
                     default:
+                        Controller.help()
                         break;
                 }
                 break;
@@ -61,6 +63,7 @@ class Controller{
                         break;
                 
                     default:
+                    Controller.help()
                         break;
                 }
                 break;
@@ -87,6 +90,7 @@ class Controller{
                     break;
                 
                     default:
+                    Controller.help()
                         break;
                 }
                 break;
@@ -113,12 +117,17 @@ class Controller{
                     break;
                 
                     default:
+                    Controller.help()
                         break;
                 }
                 break;
 
+            case "help":
+                Controller.help()
+                break;
 
             default:
+                Controller.help()
                 break;
         }
     }
@@ -157,33 +166,40 @@ class Controller{
     }
 
     static findOneContact(input){
-        Contact.readOne(input, function(err, data){
-            if(err){
-                View.displayErr(err)
-            }
-            else{
-                View.displaySuccess(data)
-                ContactGroup.readAll({
-                    field : "contactId",
-                    value : data.id
-                }, function(err, groups){
-                    if(err){
-                        View.displayErr(err);
-                    }
-                    else{
-                        data.groups = []
-                        for(let i = 0; i < groups.length; i++){
-                            Group.readOne({
-                                field: "id",
-                                value: groups[i].groupId
-                            },function(err,grup){
-                                data.groups.push(grup.name)
-                                View.displaySuccess(data)
-                            })
+        db.serialize(function(){
+            
+            Contact.readOne(input, function(err, data){
+                if(err){
+                    View.displayErr(err)
+                }
+                else{
+                    // View.displaySuccess(data)
+                    ContactGroup.readAll({
+                        field : "contactId",
+                        value : data.id
+                    }, function(err, groups){
+                        if(err){
+                            View.displayErr(err);
                         }
-                    }
-                })
-            }
+                        else {
+                            data.groups = []
+                            for(let i = 0; i < groups.length; i++){
+                                db.serialize(function () {
+                                    Group.readOne({
+                                        field: "id",
+                                        value: groups[i].groupId
+                                    },function(err,grup){
+                                        data.groups.push(grup.name)
+                                        if(i == groups.length-1){
+                                            View.displaySuccess(data)
+                                        }
+                                    })
+                                })
+                            }
+                        }
+                    })
+                }
+            })
         })
     }
 
@@ -284,6 +300,16 @@ class Controller{
         })
     }
 
+    static help(){
+        View.displaySuccess(`
+        This program is Beta version, by Kevin Wijaya;
+        Here is some of the command:
+        insert <table_name> <field_name> <value>
+        findOne <table_name> <field_name> <value>
+        findAll <table_name> <field_name> <value>
+        delete <table_name> <field_name> <value>
+        `)
+    }
 
 }
 

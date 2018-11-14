@@ -17,6 +17,8 @@ class Contacts extends Model{
     static delete(input, cb){
         super.delete("contacts", input, cb)
     }
+
+
 }
 
 module.exports = Contacts
