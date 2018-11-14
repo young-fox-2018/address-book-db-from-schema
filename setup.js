@@ -4,17 +4,17 @@ const db = require('./database')
 const qContact = `
   CREATE TABLE contacts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR,
-    company VARCHAR,
-    phone VARCHAR,
-    email VARCHAR
+    name VARCHAR(50),
+    company VARCHAR(50),
+    phone VARCHAR(13),
+    email VARCHAR(50)
   )
 `
 
 const qgroups = `
     CREATE TABLE groups (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      group_name VARCHAR
+      group_name VARCHAR(50)
     )
 `
 
