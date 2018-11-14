@@ -1,9 +1,28 @@
 const db = require('../database')
 
 class Model{
+
+  static create(table, param, cb) {
+    const fields = Object.keys(param);
+
+    let values = [];
+    for (let key in param) {
+        values.push(`"${param[key]}"`);
+    }
+
+    const query = `INSERT INTO ${table} (${fields.join(', ')}) VALUES (${values.join(', ')})`;
+    db.run(query, function(err) {
+        if (err) {
+            cb(err);
+        } else {
+            cb(null);
+        }
+    })
+  }
+
   static findOne(table , param, cb) {
-    const q =''
-    if (typeof(param.value) == string ){
+    let q =''
+    if (typeof param.value == 'string' ){
       q = `SELECT * FROM ${table} WHERE ${param.field} = "${param.value}"`
     }else {
       q = `SELECT * FROM ${table} WHERE ${param.field} = ${param.value}`
@@ -32,8 +51,7 @@ class Model{
 
   static update(table , param ,cb) {
     const q = `UPDATE ${table} SET ${param.field} = ? WHERE ${param.field2} = ?`
-    // db.run("UPDATE tbl SET name = ? WHERE id = ?", [ "bar", 2 ])
-    db.run(q, [ JSON.parse(param.value) , JSON.parse(para.value2) ] , function(err){
+    db.run(q, [ param.value , param.value2 ] , function(err){
       if(err){
         cb(err)
       } else {
@@ -41,5 +59,22 @@ class Model{
       }
     })
   }
+
+  static delete(table,param ,cb ){
+    let q = `DELETE FROM ${table} WHERE ${param.field} = ${param.value}`
+    if (typeof param.value == 'string' ){
+      q = `DELETE FROM ${table} WHERE ${param.field} = "${param.value}"`
+    }else {
+      q = `DELETE FROM ${table} WHERE ${param.field} = ${param.value}`
+    }
+    db.run(q, function(err){
+      if(err){
+        cb(err)
+      } else {
+        cb(null)
+      }
+    })
+  }
+
 }
 module.exports = Model
