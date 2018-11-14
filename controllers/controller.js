@@ -56,7 +56,8 @@ class Controller {
         }
       })
     } else if( table[0] == 'contacts') {
-      Contact.show(function(err, rows) {
+      Model.findAll(`(SELECT name , company , phone , email , group_concat(groups.group_name) AS "groups_name" FROM (SELECT * FROM contacts LEFT  JOIN  contact_group ON contact_group.contact_id = contacts.id) AS table1
+      LEFT JOIN groups ON table1.group_id = groups.id GROUP BY table1.name )`,function(err, rows) {
         if(err){
           View.display(`Err in sowing file`, err)
         } else {
