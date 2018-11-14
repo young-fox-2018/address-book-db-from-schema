@@ -23,7 +23,7 @@ class Controller {
       if(data.length !== 2) {
         View.display(`Please input name !`)
       } else {
-        Group.addGroup({name: data[1]} , function(err){
+        Group.addGroup({group_name: data[1]} , function(err){
           if(err){
             View.display(`Err di addGroup :` , err)
           } else {
@@ -47,12 +47,20 @@ class Controller {
   }
 
   static show(table) {
-    if(table[0] == 'contacts' ||table[0] == 'groups' || table[0] == 'contact_group'  ){
+    if(table[0] == 'groups' || table[0] == 'contact_group'){
       Model.findAll(table[0], function(err, rows) {
         if(err){
           View.display(`Err in showing file` , err)
         } else {
           View.display(`Success showing data :` , rows)
+        }
+      })
+    } else if( table[0] == 'contacts') {
+      Contact.show(function(err, rows) {
+        if(err){
+          View.display(`Err in sowing file`, err)
+        } else {
+          View.display(`Success showing :` , rows)
         }
       })
     } else {
@@ -83,18 +91,34 @@ class Controller {
       field: data[1],
       value: data[2]
     }
-
-    Model.findOne(table, info , function(err,row) {
-      if(err) {
-        View.display(`Err in finding data` , err) 
-      } else {
-        if(row == undefined) {
-          View.display(`There is no such data` , null)
+    if (table !== 'contacts'){
+      Model.findOne(table, info , function(err,row) {
+        if(err) {
+          View.display(`Err in finding data` , err) 
         } else {
-          View.display(`Success getting one data :` , row)
+          if(row == undefined) {
+            View.display(`There is no such data` , null)
+          } else {
+            View.display(`Success getting one data :` , row)
+          }
         }
-      }
-    })
+      })
+    } else if(table == 'contacts') {
+      Model.findOne(`(SELECT name , company , phone , email , group_concat(groups.group_name) AS "groups_name" FROM (SELECT * FROM contacts LEFT  JOIN  contact_group ON contact_group.contact_id = contacts.id) AS table1
+      LEFT JOIN groups ON table1.group_id = groups.id GROUP BY table1.name )` , info,function(err,row){
+        if(err){
+          View.display(`Err in finding data`, err)
+        } else {
+          if(row == undefined){
+            View.display(`There is no such data`)
+          } else {
+            View.display(`Success finding contact`, row)
+
+          }
+        }
+      })
+    }
+  
   }
 
   static delete(data){
@@ -116,6 +140,7 @@ class Controller {
   static help() {
     View.display(`
       AVAILABLE COMMAND FORMAT \n
+      table name = contacts, groups ,contact_group
       add <table-name> <data that need to be added \n
       show <table-name> \n
       update <table-name> <column-name> <new-value> <place> <place-value>\n

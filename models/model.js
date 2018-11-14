@@ -76,5 +76,8 @@ class Model{
     })
   }
 
+  static join(table){
+    
+  }
 }
 module.exports = Model

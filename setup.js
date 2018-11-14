@@ -14,7 +14,7 @@ const qContact = `
 const qgroups = `
     CREATE TABLE groups (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name VARCHAR
+      group_name VARCHAR
     )
 `
 
