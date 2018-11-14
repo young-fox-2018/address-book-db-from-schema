@@ -13,16 +13,12 @@ class contactGroup extends Model{
         if(!input[0] || !input[1]){
             cb("Please provide <groupId> and/or <contactId> !")
         }
-        else{
-            let queryCreate = `
-                INSERT INTO contactGroups ( groupId, contactId )
-                VALUES ("${objInput.groupId}", "${objInput.contactId}")
-                `
-            db.run(queryCreate,function(err){
+        else {
+            super.create('contactGroups', objInput, function(err){
                 if(err){
-                    let objErr =
+                    let objErr = 
                     {
-                        Message: "Errornya di create contactGroup",
+                        Message: "Errornya di contactGroups Create",
                         Details: err
                     }
                     cb(objErr)
@@ -32,7 +28,6 @@ class contactGroup extends Model{
                 }
             })
         }
-
     }    
 }
 

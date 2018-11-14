@@ -9,14 +9,26 @@ class Controller{
     static execute(cmd, input){
         switch (cmd[0]) {
             case "show":
-            Model.findAll(input, function(err,data){
-                if(err){
-                    View.displayError(err)
-                }
-                else{
-                    View.display(data)
-                }
-            })
+            if(input[0] === "Contacts"){
+                Contact.findAll(input, function(err,data){
+                    if(err){
+                        View.displayError(err)
+                    }
+                    else{
+                        View.display(data)
+                    }
+                })
+            }
+            else{
+                Model.findAll(input, function(err,data){
+                    if(err){
+                        View.displayError(err)
+                    }
+                    else{
+                        View.display(data)
+                    }
+                })
+            }
             break;
             
             case "add":
@@ -45,20 +57,23 @@ class Controller{
                         if(err){
                             View.displayError(err)
                         }
-                        else{
+                        else{ 
                             View.display(`group ID: ${data.groupId} has been registerd with User ID: ${data.contactId} in contactGroups`)
                         }
                     })
                 }
+                else{
+                    View.displayError("Please provide proper input as follows: add:contact / add:group / add:contactGroup")
+                }
             break;
             
             case "update":
-                Model.update(cmd[1], input, function(err,data){
+                Model.update( input, function(err,data){
                     if(err){
                         View.displayError(err)
                     }
                     else{
-                        View.display(`User ID: ${data.id} successfully updated their ${data.where} in ${cmd[1]}`)
+                        View.display(`User ID: ${data.id} successfully updated their ${data.where} in ${data.field}`)
                     }
                 })
             break;
