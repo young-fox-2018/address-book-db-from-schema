@@ -1,5 +1,4 @@
-const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database('./database.db')
+const db = require('./db')
 
 let qContacts =`
 CREATE TABLE IF NOT EXISTS contacts
@@ -40,5 +39,3 @@ db.serialize(function() {
         }
     })
 })
-
-module.exports = db

@@ -47,6 +47,18 @@ class Controller {
                 break;
         }
     }
+
+    static update(input) {
+        switch (input[0]) {
+            case 'contact':
+                Contact.update()
+                break;
+        
+            default:
+                break;
+        }
+    }
+
 }
 
 module.exports = Controller

@@ -1,18 +1,23 @@
-const db = require('../setup')
+const db = require('../db')
 
 class Model {
-    // static findOne(input, table, cb) {
-    //     let queries =`
-    //     SELECT * FROM ${table}
-    //     WHERE ${input.field} = ${input.data}`
-    //     db.get(queries, function(err, row) {
-    //         if (err) {
-    //             cb({message: "err findOne", err: err})
-    //         } else {
-    //             cb(row)
-    //         }
-    //     })
-    // }
+    static findOne(table, input, cb) {
+        if (table === 'contacts') {
+            var obj = {field: 'email', data: input}
+        } else {
+            var obj = {field: 'name', data: input}
+        }
+        let queries =`
+        SELECT * FROM ${table}
+        WHERE ${obj.field} = "${obj.data}";`
+        db.get(queries, function(err, row) {
+            if (err) {
+                cb({message: "err findOne", err: err})
+            } else {
+                cb(null, row)
+            }
+        })
+    }
 
     // static findAll(table, cb) {
     //     let queries =`
